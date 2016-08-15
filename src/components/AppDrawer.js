@@ -9,6 +9,7 @@ import ActionHome from 'material-ui/svg-icons/action/home';
 import PersonAdd from 'material-ui/svg-icons/social/person-add';
 import Settings from 'material-ui/svg-icons/action/settings';
 import { Link } from 'react-router';
+import { observer } from 'mobx-react';
 
 const styles = {
   link: {
@@ -16,7 +17,7 @@ const styles = {
   },
 };
 
-const AppDrawer = ({ open, closeWindow }) =>
+const AppDrawer = observer(({ open, closeWindow }) =>
   <Drawer width={225} docked={false} open={open} onRequestChange={(oState) => closeWindow()}>
     <AppBar title={"Contacts"} showMenuIconButton={false} />
 
@@ -34,5 +35,6 @@ const AppDrawer = ({ open, closeWindow }) =>
       <MenuItem primaryText="Settings" leftIcon={ <Settings /> } />
     </Link>
   </Drawer>
+);
 
 export default AppDrawer;

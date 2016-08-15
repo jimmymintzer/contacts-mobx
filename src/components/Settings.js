@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { List, Subheader, ListItem, Toggle, Paper } from 'material-ui';
+import { observer } from 'mobx-react';
 
 const styles = {
   root: {
@@ -13,14 +14,23 @@ const styles = {
   }
 };
 
-const Settings = () =>
-  <div style={styles.root}>
-    <Paper style={styles.paper} zDepth={1}>
-      <List>
-        <Subheader>General</Subheader>
-        <ListItem primaryText="Dark Mode" rightToggle={<Toggle />} />
-      </List>
-    </Paper>
-  </div>
-
-export default Settings;
+@observer
+export default class Settings extends Component {
+  handleToggle = () => {
+    this.props.toggleTheme();
+  }
+  render() {
+    return (
+      <div style={styles.root}>
+        <Paper style={styles.paper} zDepth={1}>
+          <List>
+            <Subheader>General</Subheader>
+            <ListItem primaryText="Dark Mode" rightToggle={
+              <Toggle onToggle={this.handleToggle} toggled={this.props.uiState.isDarkMode()}/>
+            } />
+          </List>
+        </Paper>
+      </div>
+    );
+  }
+}

@@ -1,22 +1,25 @@
 import React, { Component } from 'react';
 import { AppBar } from 'material-ui';
 import AppDrawer from './AppDrawer';
+import { observer, inject } from 'mobx-react';
 
+@inject('uiState')
+@observer
 export default class AppBarHeader extends Component {
-  constructor() {
-    super();
+  constructor (props, context) {
+    super(props, context);
     this.state = {
-      open: false,
+      open: props.uiState.drawerOpen,
     };
   }
-  handleDrawer = () => {
+  toggleDrawer = () => {
     this.setState({
-      open: !this.state.open,
+      open: this.props.uiState.toggleDrawerOpen(),
     });
   }
-  closeWindow = (open) => {
+  close = () => {
     this.setState({
-      open: false,
+      open: this.props.uiState.closeDrawer(),
     });
   }
   render() {
@@ -25,13 +28,12 @@ export default class AppBarHeader extends Component {
         <AppBar
           title="Contacts"
           iconClassNameRight="muidocs-icon-navigation-expand-more"
-          onLeftIconButtonTouchTap={this.handleDrawer}
+          onLeftIconButtonTouchTap={this.toggleDrawer}
         />
         <AppDrawer
           open={this.state.open}
-          closeWindow={this.closeWindow}
+          closeWindow={this.close}
         />
-        {this.props.children}
       </div>
     );
   }

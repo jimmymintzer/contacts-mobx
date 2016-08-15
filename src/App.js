@@ -1,44 +1,18 @@
-import React, { Component } from 'react';
+import React, { Component, cloneElement } from 'react';
 import './App.css';
-import { MuiThemeProvider, getMuiTheme } from 'material-ui/styles';
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
-import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
+import { observer } from 'mobx-react';
 import AppBarHeader from './components/AppBarHeader';
-import { Router, Route, useRouterHistory } from 'react-router';
-import { createHashHistory } from 'history';
-import Settings from './components/Settings';
+import DevTools from 'mobx-react-devtools';
 
-class App extends Component {
-  constructor() {
-    super();
-    this.state = {
-      theme: lightBaseTheme,
-    };
-  }
-  handleClick = () => {
-    if (this.state.theme === darkBaseTheme) {
-      this.setState({
-        theme: lightBaseTheme,
-      });
-    } else {
-      this.setState({
-        theme: darkBaseTheme,
-      });
-    }
-  }
+@observer
+export default class App extends Component {
   render() {
-    const appHistory = useRouterHistory(createHashHistory)({ queryKey: false });
-
     return (
-      <MuiThemeProvider muiTheme={getMuiTheme(this.state.theme)}>
-        <Router history={appHistory}>
-          <Route path="/" component={AppBarHeader}>
-            <Route path="settings" component={Settings} />
-          </Route>
-        </Router>
-      </MuiThemeProvider>
+      <div>
+        <DevTools />
+        <AppBarHeader />
+        {this.props.children ? cloneElement(this.props.children, this.props) : ''}
+      </div>
     );
   }
 }
-
-export default App;
