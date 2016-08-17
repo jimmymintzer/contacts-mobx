@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { List, Subheader, ListItem, Toggle, Paper } from 'material-ui';
 import { observer } from 'mobx-react';
 
@@ -15,7 +15,7 @@ const styles = {
 };
 
 @observer(['uiState'])
-export default class Settings extends Component {
+export default class Settings extends PureComponent {
   handleToggle = () => {
     this.props.uiState.toggleTheme();
   }

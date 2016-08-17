@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
 import Theme from './Theme';
 import { Router, Route, useRouterHistory } from 'react-router';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -22,7 +22,7 @@ const stores = {
   uiState,
 };
 
-ReactDOM.render(
+render(
   <Provider { ...stores }>
     <Router history={appHistory}>
       <Route path="/" component={Theme}>
