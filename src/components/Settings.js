@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import { List, Subheader, ListItem, Toggle, Paper } from 'material-ui';
 import { observer } from 'mobx-react';
 
@@ -11,11 +11,14 @@ const styles = {
   paper: {
     width: '80%',
     marginTop: '20px',
-  }
+  },
 };
 
 @observer(['uiState'])
 export default class Settings extends PureComponent {
+  static propTypes = {
+    uiState: PropTypes.object.isRequired,
+  }
   handleToggle = () => {
     this.props.uiState.toggleTheme();
   }
@@ -25,12 +28,15 @@ export default class Settings extends PureComponent {
         <Paper style={styles.paper} zDepth={1}>
           <List>
             <Subheader>General</Subheader>
-            <ListItem primaryText="Dark Mode" rightToggle={
-              <Toggle
-                onToggle={this.handleToggle}
-                toggled={this.props.uiState.isDarkMode}
+            <ListItem
+              primaryText="Dark Mode"
+              rightToggle={
+                <Toggle
+                  onToggle={this.handleToggle}
+                  toggled={this.props.uiState.isDarkMode}
                 />
-            } />
+              }
+            />
           </List>
         </Paper>
       </div>

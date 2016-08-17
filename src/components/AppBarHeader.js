@@ -1,10 +1,13 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
+import { observer } from 'mobx-react';
 import { AppBar } from 'material-ui';
 import AppDrawer from './AppDrawer';
-import { observer } from 'mobx-react';
 
 @observer(['uiState'])
 export default class AppBarHeader extends PureComponent {
+  static propTypes = {
+    uiState: PropTypes.object.isRequired,
+  }
   toggleDrawer = () => {
     this.props.uiState.toggleDrawerOpen();
   }

@@ -13,21 +13,21 @@ const styles = {
 };
 
 const AppDrawer = observer(({ open, closeWindow }) =>
-  <Drawer width={225} docked={false} open={open} onRequestChange={(oState) => closeWindow()}>
+  <Drawer width={225} docked={false} open={open} onRequestChange={() => closeWindow()}>
     <AppBar title={"Contacts"} showMenuIconButton={false} />
 
     <Link style={styles.link} to="/" onClick={closeWindow}>
-      <MenuItem primaryText="Home" leftIcon={ <ActionHome /> } />
+      <MenuItem primaryText="Home" leftIcon={<ActionHome />} />
     </Link>
 
     <Link style={styles.link} to="new" onClick={closeWindow}>
-      <MenuItem primaryText="New Contact" leftIcon={ <PersonAdd /> } />
+      <MenuItem primaryText="New Contact" leftIcon={<PersonAdd />} />
     </Link>
 
     <Divider />
 
     <Link style={styles.link} to="settings" onClick={closeWindow}>
-      <MenuItem primaryText="Settings" leftIcon={ <Settings /> } />
+      <MenuItem primaryText="Settings" leftIcon={<Settings />} />
     </Link>
   </Drawer>
 );
