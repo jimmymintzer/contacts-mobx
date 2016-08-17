@@ -14,10 +14,10 @@ const styles = {
   }
 };
 
-@observer
+@observer(['uiState'])
 export default class Settings extends Component {
   handleToggle = () => {
-    this.props.toggleTheme();
+    this.props.uiState.toggleTheme();
   }
   render() {
     return (
@@ -26,7 +26,10 @@ export default class Settings extends Component {
           <List>
             <Subheader>General</Subheader>
             <ListItem primaryText="Dark Mode" rightToggle={
-              <Toggle onToggle={this.handleToggle} toggled={this.props.uiState.isDarkMode()}/>
+              <Toggle
+                onToggle={this.handleToggle}
+                toggled={this.props.uiState.isDarkMode}
+                />
             } />
           </List>
         </Paper>

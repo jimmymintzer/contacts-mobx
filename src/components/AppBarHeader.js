@@ -1,37 +1,27 @@
 import React, { Component } from 'react';
 import { AppBar } from 'material-ui';
 import AppDrawer from './AppDrawer';
-import { observer, inject } from 'mobx-react';
+import { observer } from 'mobx-react';
 
-@inject('uiState')
-@observer
+@observer(['uiState'])
 export default class AppBarHeader extends Component {
-  constructor (props, context) {
-    super(props, context);
-    this.state = {
-      open: props.uiState.drawerOpen,
-    };
-  }
   toggleDrawer = () => {
-    this.setState({
-      open: this.props.uiState.toggleDrawerOpen(),
-    });
+    this.props.uiState.toggleDrawerOpen();
   }
   close = () => {
-    this.setState({
-      open: this.props.uiState.closeDrawer(),
-    });
+    this.props.uiState.closeDrawer();
   }
   render() {
     return (
       <div>
+        <h1>{this.props.uiState.isDarkMode}</h1>
         <AppBar
           title="Contacts"
           iconClassNameRight="muidocs-icon-navigation-expand-more"
           onLeftIconButtonTouchTap={this.toggleDrawer}
         />
         <AppDrawer
-          open={this.state.open}
+          open={this.props.uiState.drawerOpen}
           closeWindow={this.close}
         />
       </div>

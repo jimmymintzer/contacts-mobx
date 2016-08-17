@@ -1,26 +1,16 @@
 import React, { Component } from 'react';
 import App from './App';
-import { MuiThemeProvider, getMuiTheme } from 'material-ui/styles';
-import { observer, inject } from 'mobx-react';
+import { MuiThemeProvider } from 'material-ui/styles';
+import { observer } from 'mobx-react';
 
-@inject('uiState')
-@observer
+@observer(['uiState'])
 export default class Theme extends Component {
-  constructor(props, context) {
-    super(props, context);
-    this.state = {
-      theme: props.uiState.theme,
-    };
-  }
-  toggleTheme = () => {
-    this.setState({
-      theme: this.props.uiState.toggleTheme(),
-    });
-  }
   render() {
+    const { themeObject } = this.props.uiState;
+
     return (
-      <MuiThemeProvider muiTheme={getMuiTheme(this.state.theme)}>
-        <App toggleTheme={this.toggleTheme} {...this.props} />
+      <MuiThemeProvider muiTheme={themeObject}>
+        <App { ...this.props }/>
       </MuiThemeProvider>
     );
   }

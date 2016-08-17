@@ -1,4 +1,4 @@
-import React, { Component, cloneElement } from 'react';
+import React, { Component } from 'react';
 import './App.css';
 import { observer } from 'mobx-react';
 import AppBarHeader from './components/AppBarHeader';
@@ -11,7 +11,7 @@ export default class App extends Component {
       <div>
         <DevTools />
         <AppBarHeader />
-        {this.props.children ? cloneElement(this.props.children, this.props) : ''}
+        {this.props.children}
       </div>
     );
   }

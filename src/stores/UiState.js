@@ -1,36 +1,39 @@
-import {observable} from 'mobx';
+import { extendObservable, computed, action } from 'mobx';
+import { getMuiTheme } from 'material-ui/styles';
 import lightBaseTheme from 'material-ui/styles/baseThemes/lightBaseTheme';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme'
 
 export default class UiState {
-  @observable theme;
-  @observable drawerOpen: boolean;
+  // @observable theme;
+  // @observable drawerOpen: boolean;
 
   constructor(theme, drawerOpen) {
-    this.theme = theme;
-    this.drawerOpen = drawerOpen || false;
+    extendObservable(this, {
+      theme: lightBaseTheme,
+      drawerOpen: false,
+    });
   }
 
-  toggleTheme = () => {
-    if (this.theme === darkBaseTheme) {
-      this.theme = lightBaseTheme;
-    } else {
-      this.theme = darkBaseTheme;
-    }
-    return this.theme;
+  @computed get themeObject() {
+    return getMuiTheme(this.theme);
   }
 
-  isDarkMode = () => {
+  @computed get isDarkMode() {
     return this.theme === darkBaseTheme;
   }
 
-  toggleDrawerOpen = () => {
-    this.drawerOpen = !this.drawerOpen;
-    return this.drawerOpen;
+  @action toggleTheme() {
+    this.theme = (this.theme === darkBaseTheme) ?
+      lightBaseTheme :
+      darkBaseTheme;
+    return this.theme;
   }
 
-  closeDrawer = () => {
+  @action toggleDrawerOpen() {
+    this.drawerOpen = !this.drawerOpen;
+  }
+
+  @action closeDrawer() {
     this.drawerOpen = false;
-    return this.drawerOpen;
   }
 }
