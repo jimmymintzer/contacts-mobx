@@ -7,7 +7,9 @@ import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 export default class UiState {
   @observable theme: Object = lightBaseTheme;
   @observable drawerOpen: boolean = false;
-  @observable phoneNumberSelectValue: number = 1;
+  @observable firstName: string = '';
+  @observable lastName: string = '';
+  @observable phoneType: number = 1;
   @observable phoneNumber: string = '';
 
   @computed get themeObject(): Object {
@@ -42,11 +44,19 @@ export default class UiState {
     this.drawerOpen = false;
   }
 
-  @action setPhoneNumberSelectValue(val: number): void {
-    this.phoneNumberSelectValue = val;
+  @action setPhoneType(val: number): void {
+    this.phoneType = val;
   }
 
   @action setPhoneNumber(val: string): void {
     this.phoneNumber = val;
+  }
+
+  @action setFirstname(val: string): void {
+    this.firstName = val;
+  }
+
+  @action setLastName(val: string): void {
+    this.lastName = val;
   }
 }

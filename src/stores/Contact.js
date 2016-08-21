@@ -1,10 +1,15 @@
-import { observable, computed } from 'mobx';
+import { observable } from 'mobx';
 
 export default class Contact {
   @observable firstName;
   @observable lastName;
+  @observable phoneType;
+  @observable phoneNumber;
 
-  @computed fullName = () => {
-    return `${this.firstname}   ${this.lastName}`;
+  constructor(firstName, lastName, phoneType, phoneNumber) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.phoneType = phoneType;
+    this.phoneNumber = phoneNumber;
   }
 }

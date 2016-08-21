@@ -5,14 +5,17 @@ import { createHashHistory } from 'history';
 import Root from './components/Root';
 import Settings from './components/Settings';
 import UiState from './stores/UiState';
+import Contacts from './stores/Contacts';
 import List from './components/List';
 import NewContact from './components/NewContact';
 
 const appHistory = useRouterHistory(createHashHistory)({ queryKey: false });
 const uiState = new UiState('lightBaseTheme', false);
+const contacts = new Contacts();
 
 const stores = {
   uiState,
+  contacts,
 };
 
 const App = observer(() =>

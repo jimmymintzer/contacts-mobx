@@ -24,56 +24,79 @@ const styles = {
   },
 };
 
-@observer(['uiState'])
+@observer(['uiState', 'contacts'])
 export default class NewContext extends PureComponent {
   static propTypes = {
     uiState: PropTypes.object.isRequired,
+    contacts: PropTypes.object.isRequired,
   }
-  handlePhoneNumberChange = (event) =>
-    this.props.uiState.setPhoneNumber(event.target.value);
-  handleSelectValueChange = (event, index, value) =>
-    this.props.uiState.setPhoneNumberSelectValue(value);
+  handleFirstNameChange = (event) => this.props.uiState.setFirstname(event.target.value);
+  handleLastNameChange = (event) => this.props.uiState.setLastName(event.target.value);
+  handlePhoneNumberChange = (event) => this.props.uiState.setPhoneNumber(event.target.value);
+  handleSelectValueChange = (event, index, value) => this.props.uiState.setPhoneType(value);
+  handleSubmit = (event) => {
+    event.preventDefault();
+    const { firstName, lastName, phoneType, phoneNumber } = this.props.uiState;
+    this.props.contacts.addContact(firstName, lastName, phoneType, phoneNumber);
+  }
   render() {
+    const {
+      firstName,
+      lastName,
+      phoneNumber,
+      phoneType,
+      phoneNumberErrorMessage,
+    } = this.props.uiState;
+
     return (
       <PaperContainer>
-        <TextField
-          floatingLabelText="First Name"
-          fullWidth
-        />
-        <br />
-        <TextField
-          floatingLabelText="Last Name"
-          fullWidth
-        />
-        <br />
-        <div style={styles.phoneContainer} className="phone-container">
+        <form onSubmit={this.handleSubmit}>
           <TextField
-            onChange={this.handlePhoneNumberChange}
-            floatingLabelText="Phone Number"
-            style={styles.phoneTextField}
-            hintText={'(xxx) xxx-xxxx'}
-            errorText={this.props.uiState.phoneNumberErrorMessage}
+            value={firstName}
+            onChange={this.handleFirstNameChange}
+            floatingLabelText="First Name"
+            fullWidth
           />
-          <SelectField
-            value={this.props.uiState.phoneNumberSelectValue}
-            onChange={this.handleSelectValueChange}
-            style={styles.selectField}
-          >
-            <MenuItem value={1} primaryText="Mobile" />
-            <MenuItem value={2} primaryText="Home" />
-            <MenuItem value={3} primaryText="Work" />
-            <MenuItem value={4} primaryText="Fax" />
-          </SelectField>
-        </div>
-        <br />
-        <div style={styles.buttonContainer} className="button-container">
-          <RaisedButton
-            style={styles.primaryButton}
-            label="Save"
-            primary
+          <br />
+          <TextField
+            value={lastName}
+            onChange={this.handleLastNameChange}
+            floatingLabelText="Last Name"
+            fullWidth
           />
-          <RaisedButton label="Cancel" />
-        </div>
+          <br />
+          <div style={styles.phoneContainer} className="phone-container">
+            <TextField
+              value={phoneNumber}
+              onChange={this.handlePhoneNumberChange}
+              floatingLabelText="Phone Number"
+              style={styles.phoneTextField}
+              hintText={'(xxx) xxx-xxxx'}
+              errorText={phoneNumberErrorMessage}
+              type={'tel'}
+            />
+            <SelectField
+              value={phoneType}
+              onChange={this.handleSelectValueChange}
+              style={styles.selectField}
+            >
+              <MenuItem value={1} primaryText="Mobile" />
+              <MenuItem value={2} primaryText="Home" />
+              <MenuItem value={3} primaryText="Work" />
+              <MenuItem value={4} primaryText="Fax" />
+            </SelectField>
+          </div>
+          <br />
+          <div style={styles.buttonContainer} className="button-container">
+            <RaisedButton
+              style={styles.primaryButton}
+              type="submit"
+              label="Save"
+              primary
+            />
+            <RaisedButton label="Cancel" />
+          </div>
+        </form>
       </PaperContainer>
     );
   }
