@@ -17,7 +17,6 @@ export default class AppBarHeader extends PureComponent {
   render() {
     return (
       <div>
-        <h1>{this.props.uiState.isDarkMode}</h1>
         <AppBar
           title="Contacts"
           iconClassNameRight="muidocs-icon-navigation-expand-more"

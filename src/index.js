@@ -1,3 +1,5 @@
+import 'whatwg-fetch';
+import 'es6-promise';
 import React from 'react';
 import { render } from 'react-dom';
 import { useStrict } from 'mobx';
@@ -17,7 +19,7 @@ render(
 
 if (module.hot) {
   module.hot.accept('./App', () => {
-    const NextApp = require('./App').default;
+    const NextApp = require('./App').default; // eslint-disable-line global-require
 
     render(
       <AppContainer>

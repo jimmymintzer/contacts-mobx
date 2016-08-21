@@ -4,5 +4,9 @@
     "es2015",
     "stage-1"
   ],
-  "plugins": ["transform-decorators-legacy", "react-hot-loader/babel"]
+  "plugins": [
+    "transform-decorators-legacy",
+    "transform-flow-strip-types",
+    "react-hot-loader/babel"
+  ]
 }
