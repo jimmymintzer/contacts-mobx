@@ -1,8 +1,8 @@
 // @flow
 import React, { PureComponent, PropTypes } from 'react';
-import { List, ListItem } from 'material-ui/List';
+import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 import { Link } from 'react-router';
-import { Subheader } from 'material-ui';
+import { Subheader, FlatButton } from 'material-ui';
 import { observer } from 'mobx-react';
 import PaperContainer from './PaperContainer';
 
@@ -28,11 +28,24 @@ export default class ContactList extends PureComponent {
   }
   renderList(contacts: Array<Object>) {
     return (
-      <List>
+      <div>
         {contacts.map(contact =>
-          <ListItem key={contact.id} primaryText={contact.fullName} />
+          <Card key={contact.id}>
+            <CardHeader
+              title={contact.fullName}
+              actAsExpander
+              showExpandableButton
+            />
+            <CardText expandable>
+              <p>{contact.fullPhoneNumber}</p>
+            </CardText>
+            <CardActions expandable>
+              <FlatButton label="Edit" />
+              <FlatButton label="Delete" />
+            </CardActions>
+          </Card>
         )}
-      </List>
+      </div>
     );
   }
   render() {

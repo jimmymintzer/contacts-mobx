@@ -22,4 +22,8 @@ export default class Contact {
   @computed get fullName(): string {
     return `${this.firstName} ${this.lastName}`;
   }
+
+  @computed get fullPhoneNumber(): string {
+    return `${this.phoneType}: ${this.phoneNumber}`;
+  }
 }
