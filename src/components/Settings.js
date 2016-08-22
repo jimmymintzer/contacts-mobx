@@ -1,3 +1,4 @@
+// @flow
 import React, { PureComponent, PropTypes } from 'react';
 import { List, Subheader, ListItem, Toggle } from 'material-ui';
 import { observer } from 'mobx-react';

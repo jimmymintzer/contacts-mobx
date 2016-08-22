@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import { Paper } from 'material-ui';
 import { observer } from 'mobx-react';

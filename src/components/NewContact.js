@@ -1,7 +1,9 @@
+// @flow
 import React, { PureComponent, PropTypes } from 'react';
 import { observer } from 'mobx-react';
 import { TextField, SelectField, MenuItem, RaisedButton } from 'material-ui';
 import PaperContainer from './PaperContainer';
+import { withRouter } from 'react-router';
 
 const styles = {
   phoneContainer: {
@@ -24,20 +26,40 @@ const styles = {
   },
 };
 
-@observer(['uiState', 'contacts'])
+@withRouter
+@observer(['uiState', 'contactsStore'])
 export default class NewContext extends PureComponent {
   static propTypes = {
     uiState: PropTypes.object.isRequired,
-    contacts: PropTypes.object.isRequired,
+    contactsStore: PropTypes.object.isRequired,
+    router: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
   }
-  handleFirstNameChange = (event) => this.props.uiState.setFirstname(event.target.value);
-  handleLastNameChange = (event) => this.props.uiState.setLastName(event.target.value);
-  handlePhoneNumberChange = (event) => this.props.uiState.setPhoneNumber(event.target.value);
-  handleSelectValueChange = (event, index, value) => this.props.uiState.setPhoneType(value);
-  handleSubmit = (event) => {
+  handleFirstNameChange = (event: Event) => {
+    const target = event.target;
+    if (target instanceof HTMLInputElement) {
+      this.props.uiState.setFirstname(target.value);
+    }
+  }
+  handleLastNameChange = (event: Event) => {
+    const target = event.target;
+    if (target instanceof HTMLInputElement) {
+      this.props.uiState.setLastName(target.value);
+    }
+  }
+  handlePhoneNumberChange = (event: Event) => {
+    const target = event.target;
+    if (target instanceof HTMLInputElement) {
+      this.props.uiState.setPhoneNumber(target.value);
+    }
+  };
+  handleSelectValueChange = (event: Event, index: number, value: string) =>
+    this.props.uiState.setPhoneType(value);
+  handleSubmit = (event: Event) => {
     event.preventDefault();
     const { firstName, lastName, phoneType, phoneNumber } = this.props.uiState;
-    this.props.contacts.addContact(firstName, lastName, phoneType, phoneNumber);
+    this.props.contactsStore.addContact(firstName, lastName, phoneType, phoneNumber);
+    this.props.uiState.resetAllFields();
+    this.props.router.push('/');
   }
   render() {
     const {
@@ -80,10 +102,10 @@ export default class NewContext extends PureComponent {
               onChange={this.handleSelectValueChange}
               style={styles.selectField}
             >
-              <MenuItem value={1} primaryText="Mobile" />
-              <MenuItem value={2} primaryText="Home" />
-              <MenuItem value={3} primaryText="Work" />
-              <MenuItem value={4} primaryText="Fax" />
+              <MenuItem value={'Mobile'} primaryText="Mobile" />
+              <MenuItem value={'Home'} primaryText="Home" />
+              <MenuItem value={'Work'} primaryText="Work" />
+              <MenuItem value={'Fax'} primaryText="Fax" />
             </SelectField>
           </div>
           <br />

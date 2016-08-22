@@ -1,3 +1,4 @@
+// @flow
 import { MuiThemeProvider } from 'material-ui/styles';
 import { observer } from 'mobx-react';
 import React from 'react';

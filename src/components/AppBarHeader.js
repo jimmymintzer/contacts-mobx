@@ -1,3 +1,4 @@
+// @flow
 import React, { PureComponent, PropTypes } from 'react';
 import { observer } from 'mobx-react';
 import { AppBar } from 'material-ui';

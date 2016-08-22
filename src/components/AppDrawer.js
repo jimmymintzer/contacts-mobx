@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import { Drawer, MenuItem, Divider, AppBar } from 'material-ui';
 import ActionHome from 'material-ui/svg-icons/action/home';

@@ -1,3 +1,4 @@
+// @flow
 import 'whatwg-fetch';
 import 'es6-promise';
 import React from 'react';

@@ -9,7 +9,7 @@ export default class UiState {
   @observable drawerOpen: boolean = false;
   @observable firstName: string = '';
   @observable lastName: string = '';
-  @observable phoneType: number = 1;
+  @observable phoneType: string = 'Mobile';
   @observable phoneNumber: string = '';
 
   @computed get themeObject(): Object {
@@ -44,7 +44,7 @@ export default class UiState {
     this.drawerOpen = false;
   }
 
-  @action setPhoneType(val: number): void {
+  @action setPhoneType(val: string): void {
     this.phoneType = val;
   }
 
@@ -58,5 +58,12 @@ export default class UiState {
 
   @action setLastName(val: string): void {
     this.lastName = val;
+  }
+
+  @action resetAllFields(): void {
+    this.firstName = '';
+    this.lastName = '';
+    this.phoneType = 'Mobile';
+    this.phoneNumber = '';
   }
 }

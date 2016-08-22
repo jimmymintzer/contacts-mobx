@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import { observer, Provider } from 'mobx-react';
 import { Router, Route, IndexRoute, useRouterHistory } from 'react-router';
@@ -5,25 +6,25 @@ import { createHashHistory } from 'history';
 import Root from './components/Root';
 import Settings from './components/Settings';
 import UiState from './stores/UiState';
-import Contacts from './stores/Contacts';
-import List from './components/List';
+import ContactsStore from './stores/ContactsStore';
+import ContactList from './components/ContactList';
 import NewContact from './components/NewContact';
 
 const appHistory = useRouterHistory(createHashHistory)({ queryKey: false });
 const uiState = new UiState('lightBaseTheme', false);
-const contacts = new Contacts();
+const contactsStore = new ContactsStore();
 
 const stores = {
   uiState,
-  contacts,
+  contactsStore,
 };
 
 const App = observer(() =>
   <Provider {...stores}>
     <Router history={appHistory}>
       <Route path="/" component={Root}>
-        <IndexRoute component={List} />
-        <Route path="list" component={List} />
+        <IndexRoute component={ContactList} />
+        <Route path="list" component={ContactList} />
         <Route path="new" component={NewContact} />
         <Route path="settings" component={Settings} />
       </Route>
