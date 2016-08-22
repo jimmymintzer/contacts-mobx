@@ -2,8 +2,8 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { observer } from 'mobx-react';
 import { TextField, SelectField, MenuItem, RaisedButton } from 'material-ui';
-import PaperContainer from './PaperContainer';
 import { withRouter } from 'react-router';
+import PaperContainer from './PaperContainer';
 
 const styles = {
   phoneContainer: {
@@ -30,8 +30,21 @@ const styles = {
 @observer(['uiState', 'contactsStore'])
 export default class NewContext extends PureComponent {
   static propTypes = {
-    uiState: PropTypes.object.isRequired,
-    contactsStore: PropTypes.object.isRequired,
+    uiState: PropTypes.shape({
+      setFirstname: PropTypes.func.isRequired,
+      setLastName: PropTypes.func.isRequired,
+      setPhoneNumber: PropTypes.func.isRequired,
+      setPhoneType: PropTypes.func.isRequired,
+      firstName: PropTypes.string.isRequired,
+      lastName: PropTypes.string.isRequired,
+      phoneType: PropTypes.string.isRequired,
+      phoneNumber: PropTypes.string.isRequired,
+      resetAllFields: PropTypes.func.isRequired,
+      phoneNumberErrorMessage: PropTypes.string.isRequired,
+    }).isRequired,
+    contactsStore: PropTypes.shape({
+      addContact: PropTypes.func.isRequired,
+    }).isRequired,
     router: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
   }
   handleFirstNameChange = (event: Event) => {

@@ -7,7 +7,11 @@ import AppDrawer from './AppDrawer';
 @observer(['uiState'])
 export default class AppBarHeader extends PureComponent {
   static propTypes = {
-    uiState: PropTypes.object.isRequired,
+    uiState: PropTypes.shape({
+      toggleDrawerOpen: PropTypes.func.isRequired,
+      closeDrawer: PropTypes.func.isRequired,
+      drawerOpen: PropTypes.bool.isRequired,
+    }).isRequired,
   }
   toggleDrawer = () => {
     this.props.uiState.toggleDrawerOpen();

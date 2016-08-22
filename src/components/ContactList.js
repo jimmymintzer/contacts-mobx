@@ -15,11 +15,15 @@ const styles = {
 @observer(['contactsStore'])
 export default class ContactList extends PureComponent {
   static propTypes = {
-    contactsStore: PropTypes.object.isRequired,
+    contactsStore: PropTypes.shape({
+      contacts: PropTypes.object.isRequired,
+    }).isRequired,
   }
   renderEmptyView() {
     return (
-      <p style={styles.emptyView}>No contacts found. <Link to="new">Add a new contact.</Link></p>
+      <p
+        style={styles.emptyView}
+      >No contacts found. Try adding a <Link to="new">new contact</Link>.</p>
     );
   }
   renderList(contacts: Array<Object>) {
