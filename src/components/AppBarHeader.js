@@ -12,6 +12,7 @@ export default class AppBarHeader extends PureComponent {
       closeDrawer: PropTypes.func.isRequired,
       drawerOpen: PropTypes.bool.isRequired,
     }).isRequired,
+    muiTheme: PropTypes.object.isRequired,
   }
   toggleDrawer = () => {
     this.props.uiState.toggleDrawerOpen();

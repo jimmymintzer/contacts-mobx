@@ -129,7 +129,10 @@ export default class NewContext extends PureComponent {
               label="Save"
               primary
             />
-            <RaisedButton label="Cancel" />
+            <RaisedButton
+              label="Cancel"
+              href="#list"
+            />
           </div>
         </form>
       </PaperContainer>
