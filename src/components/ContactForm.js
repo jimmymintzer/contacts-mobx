@@ -44,8 +44,30 @@ export default class NewContext extends PureComponent {
     }).isRequired,
     contactsStore: PropTypes.shape({
       addContact: PropTypes.func.isRequired,
+      getContact: PropTypes.func.isRequired,
+      updateContact: PropTypes.func.isRequired,
     }).isRequired,
-    router: PropTypes.shape({ push: PropTypes.func.isRequired }).isRequired,
+    params: PropTypes.shape({
+      contactId: PropTypes.string,
+    }),
+    router: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }).isRequired,
+  }
+  componentWillMount() {
+    const { contactId } = this.props.params;
+
+    if (contactId) {
+      const currentContact = this.props.contactsStore.getContact(contactId);
+
+      this.props.uiState.setFirstname(currentContact.firstName);
+      this.props.uiState.setLastName(currentContact.lastName);
+      this.props.uiState.setPhoneType(currentContact.phoneType);
+      this.props.uiState.setPhoneNumber(currentContact.phoneNumber);
+    }
+  }
+  componentWillUnmount() {
+    this.props.uiState.resetAllFields();
   }
   handleFirstNameChange = (event: Event) => {
     const target = event.target;
@@ -69,9 +91,19 @@ export default class NewContext extends PureComponent {
     this.props.uiState.setPhoneType(value);
   handleSubmit = (event: Event) => {
     event.preventDefault();
+
+    const { contactId } = this.props.params;
     const { firstName, lastName, phoneType, phoneNumber } = this.props.uiState;
-    this.props.contactsStore.addContact(firstName, lastName, phoneType, phoneNumber);
-    this.props.uiState.resetAllFields();
+
+    if (contactId) {
+      this.props.contactsStore.updateContact(
+        contactId, firstName, lastName, phoneType, phoneNumber
+      );
+    } else {
+      this.props.contactsStore.addContact(
+        firstName, lastName, phoneType, phoneNumber
+      );
+    }
     this.props.router.push('/');
   }
   render() {
