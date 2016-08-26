@@ -106,7 +106,7 @@ export default class NewContext extends PureComponent {
               onChange={this.handlePhoneNumberChange}
               floatingLabelText="Phone Number"
               style={styles.phoneTextField}
-              hintText={'(xxx) xxx-xxxx'}
+              // hintText={'(xxx) xxx-xxxx'}
               errorText={phoneNumberErrorMessage}
               type={'tel'}
             />

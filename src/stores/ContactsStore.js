@@ -12,4 +12,14 @@ export default class Contacts {
     ];
   }
 
+  @action removeContact(id: string) {
+    const index = this.contacts.map(contact => contact.id).indexOf(id);
+    if (index > -1) {
+      this.contacts = [
+        ...this.contacts.slice(0, index),
+        ...this.contacts.slice(index + 1),
+      ];
+    }
+  }
+
 }

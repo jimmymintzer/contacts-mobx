@@ -11,6 +11,8 @@ export default class UiState {
   @observable lastName: string = '';
   @observable phoneType: string = 'Mobile';
   @observable phoneNumber: string = '';
+  @observable dialogOpen: boolean = false;
+  dialogId: string = '';
 
   @computed get themeObject(): Object {
     return getMuiTheme(this.theme);
@@ -65,5 +67,15 @@ export default class UiState {
     this.lastName = '';
     this.phoneType = 'Mobile';
     this.phoneNumber = '';
+  }
+
+  @action openDialog(id: string): void {
+    this.dialogId = id;
+    this.dialogOpen = true;
+  }
+
+  @action closeDialog(): void {
+    this.dialogId = '';
+    this.dialogOpen = false;
   }
 }
