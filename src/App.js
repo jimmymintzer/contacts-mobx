@@ -8,7 +8,7 @@ import Settings from './components/Settings';
 import UiState from './stores/UiState';
 import ContactsStore from './stores/ContactsStore';
 import ContactList from './components/ContactList';
-import NewContact from './components/NewContact';
+import ContactForm from './components/ContactForm';
 
 const appHistory = useRouterHistory(createHashHistory)({ queryKey: false });
 const uiState = new UiState('lightBaseTheme', false);
@@ -25,8 +25,9 @@ const App = observer(() =>
       <Route path="/" component={Root}>
         <IndexRoute component={ContactList} />
         <Route path="list" component={ContactList} />
-        <Route path="new" component={NewContact} />
+        <Route path="new" component={ContactForm} />
         <Route path="settings" component={Settings} />
+        <Route path="edit/:contactId" component={ContactForm} />
       </Route>
     </Router>
   </Provider>

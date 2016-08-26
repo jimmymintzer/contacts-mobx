@@ -1,5 +1,5 @@
 // @flow
-import { observable, action } from 'mobx';
+import { observable, action, toJS } from 'mobx';
 import Contact from '../models/Contact';
 
 export default class Contacts {
@@ -20,6 +20,20 @@ export default class Contacts {
         ...this.contacts.slice(index + 1),
       ];
     }
+  }
+
+  @action getContact(id: string) {
+    return toJS(this.contacts.find((contact) => contact.id === id));
+  }
+
+  @action updateContact(
+    id: string, firstName: string, lastName: string, phoneType: string, phoneNumber: string
+  ) {
+    const currentContact = this.contacts.find(contact => contact.id === id);
+    currentContact.firstName = firstName;
+    currentContact.lastName = lastName;
+    currentContact.phoneType = phoneType;
+    currentContact.phoneNumber = phoneNumber;
   }
 
 }
