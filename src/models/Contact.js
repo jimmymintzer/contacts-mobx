@@ -9,9 +9,7 @@ export default class Contact {
   @observable phoneType: string;
   @observable phoneNumber: string;
 
-  constructor(
-    firstName: string, lastName: string, phoneType: string, phoneNumber: string
-  ) {
+  constructor(firstName: string, lastName: string, phoneType: string, phoneNumber: string) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.phoneType = phoneType;
@@ -21,9 +19,5 @@ export default class Contact {
 
   @computed get fullName(): string {
     return `${this.firstName} ${this.lastName}`;
-  }
-
-  @computed get fullPhoneNumber(): string {
-    return `${this.phoneType}: ${this.phoneNumber}`;
   }
 }

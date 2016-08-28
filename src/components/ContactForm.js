@@ -31,15 +31,6 @@ const styles = {
 export default class NewContext extends PureComponent {
   static propTypes = {
     uiState: PropTypes.shape({
-      setFirstname: PropTypes.func.isRequired,
-      setLastName: PropTypes.func.isRequired,
-      setPhoneNumber: PropTypes.func.isRequired,
-      setPhoneType: PropTypes.func.isRequired,
-      firstName: PropTypes.string.isRequired,
-      lastName: PropTypes.string.isRequired,
-      phoneType: PropTypes.string.isRequired,
-      phoneNumber: PropTypes.string.isRequired,
-      resetAllFields: PropTypes.func.isRequired,
       phoneNumberErrorMessage: PropTypes.string.isRequired,
     }).isRequired,
     contactsStore: PropTypes.shape({
@@ -54,64 +45,47 @@ export default class NewContext extends PureComponent {
       push: PropTypes.func.isRequired,
     }).isRequired,
   }
+  state = {
+    phoneType: 'Mobile',
+    firstName: '',
+    lastName: '',
+    phoneNumber: '',
+  }
   componentWillMount() {
     const { contactId } = this.props.params;
 
     if (contactId) {
       const currentContact = this.props.contactsStore.getContact(contactId);
 
-      this.props.uiState.setFirstname(currentContact.firstName);
-      this.props.uiState.setLastName(currentContact.lastName);
-      this.props.uiState.setPhoneType(currentContact.phoneType);
-      this.props.uiState.setPhoneNumber(currentContact.phoneNumber);
+      this.setState({
+        firstName: currentContact.firstName,
+        lastName: currentContact.lastName,
+        phoneType: currentContact.phoneType,
+        phoneNumber: currentContact.phoneNumber,
+      });
     }
   }
-  componentWillUnmount() {
-    this.props.uiState.resetAllFields();
-  }
-  handleFirstNameChange = (event: Event) => {
-    const target = event.target;
-    if (target instanceof HTMLInputElement) {
-      this.props.uiState.setFirstname(target.value);
-    }
-  }
-  handleLastNameChange = (event: Event) => {
-    const target = event.target;
-    if (target instanceof HTMLInputElement) {
-      this.props.uiState.setLastName(target.value);
-    }
-  }
-  handlePhoneNumberChange = (event: Event) => {
-    const target = event.target;
-    if (target instanceof HTMLInputElement) {
-      this.props.uiState.setPhoneNumber(target.value);
-    }
-  };
-  handleSelectValueChange = (event: Event, index: number, value: string) =>
-    this.props.uiState.setPhoneType(value);
+
   handleSubmit = (event: Event) => {
     event.preventDefault();
+    const { firstName, lastName, phoneType, phoneNumber } = this.state;
 
     const { contactId } = this.props.params;
-    const { firstName, lastName, phoneType, phoneNumber } = this.props.uiState;
 
     if (contactId) {
-      this.props.contactsStore.updateContact(
-        contactId, firstName, lastName, phoneType, phoneNumber
-      );
+      this.props.contactsStore.updateContact(contactId, firstName, lastName, phoneType, phoneNumber); //eslint-disable-line
     } else {
-      this.props.contactsStore.addContact(
-        firstName, lastName, phoneType, phoneNumber
-      );
+      this.props.contactsStore.addContact(firstName, lastName, phoneType, phoneNumber);
     }
+
     this.props.router.push('/');
   }
+  handlePhoneTypeChange =
+    (event: Event, index: number, value: string) =>
+      this.setState({ phoneType: value });
+
   render() {
     const {
-      firstName,
-      lastName,
-      phoneNumber,
-      phoneType,
       phoneNumberErrorMessage,
     } = this.props.uiState;
 
@@ -119,33 +93,44 @@ export default class NewContext extends PureComponent {
       <PaperContainer>
         <form onSubmit={this.handleSubmit}>
           <TextField
-            value={firstName}
-            onChange={this.handleFirstNameChange}
+            onChange={(event) => {
+              this.setState({
+                firstName: event.target.value,
+              });
+            }}
+            value={this.state.firstName}
             floatingLabelText="First Name"
             fullWidth
           />
           <br />
           <TextField
-            value={lastName}
-            onChange={this.handleLastNameChange}
+            onChange={(event) => {
+              this.setState({
+                lastName: event.target.value,
+              });
+            }}
+            value={this.state.lastName}
             floatingLabelText="Last Name"
             fullWidth
           />
           <br />
           <div style={styles.phoneContainer} className="phone-container">
             <TextField
-              value={phoneNumber}
-              onChange={this.handlePhoneNumberChange}
+              onChange={(event) => {
+                this.setState({
+                  phoneNumber: event.target.value,
+                });
+              }}
+              value={this.state.phoneNumber}
               floatingLabelText="Phone Number"
               style={styles.phoneTextField}
-              // hintText={'(xxx) xxx-xxxx'}
               errorText={phoneNumberErrorMessage}
               type={'tel'}
             />
             <SelectField
-              value={phoneType}
-              onChange={this.handleSelectValueChange}
               style={styles.selectField}
+              value={this.state.phoneType}
+              onChange={this.handlePhoneTypeChange}
             >
               <MenuItem value={'Mobile'} primaryText="Mobile" />
               <MenuItem value={'Home'} primaryText="Home" />
@@ -155,16 +140,8 @@ export default class NewContext extends PureComponent {
           </div>
           <br />
           <div style={styles.buttonContainer} className="button-container">
-            <RaisedButton
-              style={styles.primaryButton}
-              type="submit"
-              label="Save"
-              primary
-            />
-            <RaisedButton
-              label="Cancel"
-              href="#list"
-            />
+            <RaisedButton style={styles.primaryButton} type="submit" label="Save" primary />
+            <RaisedButton label="Cancel" href="#list" />
           </div>
         </form>
       </PaperContainer>

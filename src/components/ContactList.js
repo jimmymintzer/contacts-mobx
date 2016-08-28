@@ -33,7 +33,7 @@ const styles = {
 };
 
 @withRouter
-@observer(['contactsStore', 'uiState'])
+@observer(['contactsStore'])
 export default class ContactList extends PureComponent {
   static propTypes = {
     contactsStore: PropTypes.shape({
@@ -43,15 +43,30 @@ export default class ContactList extends PureComponent {
     router: PropTypes.shape({
       push: PropTypes.func.isRequired,
     }).isRequired,
-    uiState: PropTypes.shape({
-      openDialog: PropTypes.func.isRequired,
-    }).isRequired,
   }
+
+  state = {
+    dialogOpen: false,
+    dialogId: '',
+  }
+
   handleDelete = (id: string) => {
-    this.props.uiState.openDialog(id);
+    this.setState({
+      dialogOpen: true,
+      dialogId: id,
+    });
   }
-  removeUser = (id: string) => {
-    this.props.contactsStore.removeContact(id);
+  closeDialog = () => {
+    this.setState({
+      dialogOpen: false,
+      dialogId: '',
+    });
+  }
+  removeContact = () => {
+    const { contactsStore } = this.props;
+    const { dialogId } = this.state;
+
+    contactsStore.removeContact(dialogId);
   }
   renderEmptyView() {
     return (
@@ -88,7 +103,9 @@ export default class ContactList extends PureComponent {
           </Card>
         )}
         <DialogConfirmation
-          removeUser={this.removeUser}
+          open={this.state.dialogOpen}
+          closeDialog={this.closeDialog}
+          removeContact={this.removeContact}
           title={'Are you sure you want to remove this contact?'}
           paragraph={'This action cannot be undone.'}
         />

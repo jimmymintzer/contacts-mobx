@@ -6,25 +6,21 @@ import { observer } from 'mobx-react';
 @observer(['uiState'])
 export default class DialogConfirmation extends PureComponent {
   static propTypes = {
-    uiState: PropTypes.shape({
-      closeDialog: PropTypes.func.isRequired,
-      dialogOpen: PropTypes.bool.isRequired,
-    }).isRequired,
     title: PropTypes.string.isRequired,
     paragraph: PropTypes.string,
-    removeUser: PropTypes.func.isRequired,
+    closeDialog: PropTypes.func.isRequired,
+    removeContact: PropTypes.func.isRequired,
+    open: PropTypes.bool.isRequired,
   }
   handleCancel = () => {
-    this.props.uiState.closeDialog();
+    this.props.closeDialog();
   }
   handleClose = () => {
-    this.props.uiState.closeDialog();
+    this.props.closeDialog();
   }
   handleSubmit = () => {
-    const { removeUser, uiState } = this.props;
-
-    removeUser(uiState.dialogId);
-    uiState.closeDialog();
+    this.props.removeContact();
+    this.props.closeDialog();
   }
   render() {
     const { title, paragraph } = this.props;
@@ -48,7 +44,7 @@ export default class DialogConfirmation extends PureComponent {
         title={title}
         actions={actions}
         modal={false}
-        open={this.props.uiState.dialogOpen}
+        open={this.props.open}
         onRequestClose={this.handleClose}
       >
       {paragraph}

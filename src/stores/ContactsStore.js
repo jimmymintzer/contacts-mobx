@@ -26,9 +26,7 @@ export default class Contacts {
     return toJS(this.contacts.find((contact) => contact.id === id));
   }
 
-  @action updateContact(
-    id: string, firstName: string, lastName: string, phoneType: string, phoneNumber: string
-  ) {
+  @action updateContact(id: string, firstName: string, lastName: string, phoneType: string, phoneNumber: string) { //eslint-disable-line
     const currentContact = this.contacts.find(contact => contact.id === id);
     currentContact.firstName = firstName;
     currentContact.lastName = lastName;
