@@ -7,8 +7,9 @@ import { observer } from 'mobx-react';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import PaperContainer from './PaperContainer';
 import DialogConfirmation from './DialogConfirmation';
+import { StyleSheet, css } from 'aphrodite';
 
-const styles = {
+const styles = StyleSheet.create({
   emptyView: {
     paddingLeft: '16px',
   },
@@ -30,7 +31,7 @@ const styles = {
   phoneNumber: {
     display: 'inline-block',
   },
-};
+});
 
 @withRouter
 @observer(['contactsStore'])
@@ -71,7 +72,7 @@ export default class ContactList extends PureComponent {
   renderEmptyView() {
     return (
       <p
-        style={styles.emptyView}
+        className={css(styles.emptyView)}
       >No contacts found. Try adding a <Link to="new">new contact</Link>.</p>
     );
   }
@@ -79,15 +80,15 @@ export default class ContactList extends PureComponent {
     return (
       <div>
         {contacts.map(contact =>
-          <Card style={styles.card} key={contact.id}>
+          <Card className={css(styles.card)} key={contact.id}>
             <CardHeader
               title={contact.fullName}
               actAsExpander
               showExpandableButton
             />
             <CardText expandable>
-              <h3 style={styles.phoneType}>{contact.phoneType}:</h3>
-              <p style={styles.phoneNumber}>{contact.phoneNumber}</p>
+              <h3 className={css(styles.phoneType)}>{contact.phoneType}:</h3>
+              <p className={css(styles.phoneNumber)}>{contact.phoneNumber}</p>
             </CardText>
             <CardActions expandable>
               <RaisedButton
@@ -123,8 +124,8 @@ export default class ContactList extends PureComponent {
           this.renderEmptyView() :
           this.renderList(contacts)
         }
-        <div style={styles.buttonContainer}>
-          <FloatingActionButton href="#new" style={styles.floatingButton}>
+        <div className={css(styles.buttonContainer)}>
+          <FloatingActionButton href="#new" className={css(styles.floatingButton)}>
             <ContentAdd />
           </FloatingActionButton>
         </div>

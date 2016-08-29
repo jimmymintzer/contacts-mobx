@@ -3,9 +3,10 @@ import React, { PureComponent, PropTypes } from 'react';
 import { observer } from 'mobx-react';
 import { TextField, SelectField, MenuItem, RaisedButton } from 'material-ui';
 import { withRouter } from 'react-router';
+import { StyleSheet, css } from 'aphrodite';
 import PaperContainer from './PaperContainer';
 
-const styles = {
+const styles = StyleSheet.create({
   phoneContainer: {
     display: 'flex',
     justifyContent: 'flex-start',
@@ -24,15 +25,12 @@ const styles = {
   buttonContainer: {
     marginTop: '30px',
   },
-};
+});
 
 @withRouter
-@observer(['uiState', 'contactsStore'])
+@observer(['contactsStore'])
 export default class NewContext extends PureComponent {
   static propTypes = {
-    uiState: PropTypes.shape({
-      phoneNumberErrorMessage: PropTypes.string.isRequired,
-    }).isRequired,
     contactsStore: PropTypes.shape({
       addContact: PropTypes.func.isRequired,
       getContact: PropTypes.func.isRequired,
@@ -46,10 +44,10 @@ export default class NewContext extends PureComponent {
     }).isRequired,
   }
   state = {
+    phoneNumber: '',
     phoneType: 'Mobile',
     firstName: '',
     lastName: '',
-    phoneNumber: '',
   }
   componentWillMount() {
     const { contactId } = this.props.params;
@@ -85,10 +83,6 @@ export default class NewContext extends PureComponent {
       this.setState({ phoneType: value });
 
   render() {
-    const {
-      phoneNumberErrorMessage,
-    } = this.props.uiState;
-
     return (
       <PaperContainer>
         <form onSubmit={this.handleSubmit}>
@@ -114,7 +108,7 @@ export default class NewContext extends PureComponent {
             fullWidth
           />
           <br />
-          <div style={styles.phoneContainer} className="phone-container">
+          <div className={css(styles.phoneContainer)}>
             <TextField
               onChange={(event) => {
                 this.setState({
@@ -123,12 +117,11 @@ export default class NewContext extends PureComponent {
               }}
               value={this.state.phoneNumber}
               floatingLabelText="Phone Number"
-              style={styles.phoneTextField}
-              errorText={phoneNumberErrorMessage}
+              className={css(styles.phoneTextField)}
               type={'tel'}
             />
             <SelectField
-              style={styles.selectField}
+              className={css(styles.selectField)}
               value={this.state.phoneType}
               onChange={this.handlePhoneTypeChange}
             >
@@ -139,8 +132,13 @@ export default class NewContext extends PureComponent {
             </SelectField>
           </div>
           <br />
-          <div style={styles.buttonContainer} className="button-container">
-            <RaisedButton style={styles.primaryButton} type="submit" label="Save" primary />
+          <div className={css(styles.buttonContainer)}>
+            <RaisedButton
+              className={css(styles.primaryButton)}
+              type="submit"
+              label="Save"
+              primary
+            />
             <RaisedButton label="Cancel" href="#list" />
           </div>
         </form>

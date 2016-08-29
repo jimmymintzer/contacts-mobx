@@ -4,6 +4,7 @@ import Contact from '../models/Contact';
 
 export default class Contacts {
   @observable contacts = [];
+  @observable phoneNumberErrorMessage = '';
 
   @action addContact(firstName: string, lastName: string, phoneType: string, phoneNumber: string) {
     this.contacts = [

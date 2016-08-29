@@ -15,10 +15,6 @@ export default class UiState {
     return this.theme === darkBaseTheme;
   }
 
-  @computed get phoneNumberErrorMessage(): string {
-    return '';
-  }
-
   @action toggleTheme() {
     this.theme = (this.theme === darkBaseTheme) ?
       lightBaseTheme :
