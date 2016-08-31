@@ -9,19 +9,36 @@ export default class Contact {
   @observable lastName: string;
   @observable phoneType: string;
   @observable phoneNumber: string;
+  _id: string;
 
-  constructor(firstName: string, lastName: string, phoneType: string, phoneNumber: string) {
+  constructor(contact: Object) {
+    const { firstName, lastName, phoneType, phoneNumber, id } = contact;
     const pn = new PhoneNumber(phoneNumber, 'US');
+    if (!id) {
+      this.id = v1();
+    } else {
+      this.id = id;
+    }
+    this._id = this.id; // eslint-disable-line no-underscore-dangle
 
     this.firstName = firstName;
     this.lastName = lastName;
     this.phoneType = phoneType;
     this.phoneNumber = pn.getNumber('international');
-    this.id = v1();
   }
 
   @computed get fullName(): string {
     return `${this.firstName} ${this.lastName}`;
+  }
+
+  @computed get firstInitial(): string {
+    if (this.firstName.length > 0) {
+      return this.firstName[0];
+    }
+    if (this.lastName.length > 0) {
+      return this.lastName[0];
+    }
+    return '';
   }
 
 }

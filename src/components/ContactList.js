@@ -2,12 +2,13 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 import { Link, withRouter } from 'react-router';
-import { Subheader, RaisedButton, FloatingActionButton } from 'material-ui';
+import { Subheader, RaisedButton, FloatingActionButton, Avatar } from 'material-ui';
 import { observer } from 'mobx-react';
 import ContentAdd from 'material-ui/svg-icons/content/add';
+import { StyleSheet, css } from 'aphrodite';
+
 import PaperContainer from './PaperContainer';
 import DialogConfirmation from './DialogConfirmation';
-import { StyleSheet, css } from 'aphrodite';
 
 const styles = StyleSheet.create({
   emptyView: {
@@ -34,16 +35,20 @@ const styles = StyleSheet.create({
 });
 
 @withRouter
-@observer(['contactsStore'])
+@observer(['contactsStore', 'uiState'])
 export default class ContactList extends PureComponent {
   static propTypes = {
     contactsStore: PropTypes.shape({
       contacts: PropTypes.object.isRequired,
       removeContact: PropTypes.func.isRequired,
+      loading: PropTypes.bool.isRequired,
     }).isRequired,
     router: PropTypes.shape({
       push: PropTypes.func.isRequired,
     }).isRequired,
+    uiState: PropTypes.shape({
+      getColor: PropTypes.func.isRequired,
+    }),
   }
 
   state = {
@@ -77,18 +82,35 @@ export default class ContactList extends PureComponent {
     );
   }
   renderList(contacts: Array<Object>) {
+    const { getColor } = this.props.uiState;
+
     return (
       <div>
-        {contacts.map(contact =>
+        {contacts.map((contact, index) =>
           <Card className={css(styles.card)} key={contact.id}>
             <CardHeader
               title={contact.fullName}
               actAsExpander
               showExpandableButton
+              textStyle={{ verticalAlign: 'middle' }}
+              avatar={
+                <Avatar
+                  backgroundColor={getColor(index)}
+                >{contact.firstInitial}</Avatar>
+              }
             />
             <CardText expandable>
-              <h3 className={css(styles.phoneType)}>{contact.phoneType}:</h3>
-              <p className={css(styles.phoneNumber)}>{contact.phoneNumber}</p>
+            {
+              (contact.phoneNumber) ?
+                <div>
+                  <h3 className={css(styles.phoneType)}>{contact.phoneType}:</h3>
+                  <p className={css(styles.phoneNumber)}>{contact.phoneNumber}</p>
+                </div>
+                :
+                <div />
+            }
+
+
             </CardText>
             <CardActions expandable>
               <RaisedButton
@@ -114,13 +136,12 @@ export default class ContactList extends PureComponent {
     );
   }
   render() {
-    const { contacts } = this.props.contactsStore;
-
+    const { contacts, loading } = this.props.contactsStore;
     return (
       <PaperContainer>
         <Subheader>Contacts</Subheader>
         {
-          (contacts.length === 0) ?
+          (contacts.length === 0 && !loading) ?
           this.renderEmptyView() :
           this.renderList(contacts)
         }

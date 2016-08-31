@@ -71,11 +71,21 @@ export default class NewContext extends PureComponent {
     const { contactId } = this.props.params;
 
     if (contactId) {
-      this.props.contactsStore.updateContact(contactId, firstName, lastName, phoneType, phoneNumber); //eslint-disable-line
+      this.props.contactsStore.updateContact({
+        contactId,
+        firstName,
+        lastName,
+        phoneType,
+        phoneNumber,
+      });
     } else {
-      this.props.contactsStore.addContact(firstName, lastName, phoneType, phoneNumber);
+      this.props.contactsStore.addContact({
+        firstName,
+        lastName,
+        phoneType,
+        phoneNumber,
+      });
     }
-
     this.props.router.push('/');
   }
   handlePhoneTypeChange =
