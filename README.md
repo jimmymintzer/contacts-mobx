@@ -1,6 +1,23 @@
-WIP
+# contacts-mobx
 
-TODO:
+### To Run:
 
-- Add notifications
-- Add indexdb
+```javascript
+npm install
+npm start
+open http://localhost:3000
+```
+
+### To build production build:
+```javascript
+npm install
+npm run build
+```
+Files built in `dist` folder
+
+#### Using:
++ react
++ react-router
++ mobx
++ material-ui
++ pouchdb
