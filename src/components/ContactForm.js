@@ -53,14 +53,19 @@ export default class NewContext extends PureComponent {
     const { contactId } = this.props.params;
 
     if (contactId) {
-      const currentContact = this.props.contactsStore.getContact(contactId);
-
-      this.setState({
-        firstName: currentContact.firstName,
-        lastName: currentContact.lastName,
-        phoneType: currentContact.phoneType,
-        phoneNumber: currentContact.phoneNumber,
-      });
+      this.props.contactsStore
+        .getContact(contactId)
+        .then(currentContact => {
+          if (currentContact.errorMsg) {
+            this.props.router.push('/');
+          }
+          this.setState({
+            firstName: currentContact.firstName,
+            lastName: currentContact.lastName,
+            phoneType: currentContact.phoneType,
+            phoneNumber: currentContact.phoneNumber,
+          });
+        });
     }
   }
 

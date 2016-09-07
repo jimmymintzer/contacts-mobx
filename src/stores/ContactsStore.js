@@ -57,8 +57,14 @@ export default class Contacts {
     }
   }
 
-  @action getContact(id: string) {
-    return toJS(this.contacts.find((contact) => contact.id === id));
+  @action getContact = async (id: string): Object => {
+    try {
+      const contact = await db.get(id);
+      return toJS(contact);
+    } catch (err) {
+      console.log('contact not found'); // eslint-disable-line no-console
+      return toJS({ errorMsg: err });
+    }
   }
 
   @action updateContact = async (contactObj: Object) => {

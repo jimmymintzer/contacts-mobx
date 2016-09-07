@@ -14,7 +14,8 @@ export default class Contact {
   constructor(contact: Object) {
     const { firstName, lastName, phoneType, phoneNumber, id } = contact;
 
-    this._id = this.id = id || v1(); // eslint-disable-line no-underscore-dangle
+    this.id = id || v1();
+    this._id = this.id; // eslint-disable-line no-underscore-dangle
     this.firstName = firstName;
     this.lastName = lastName;
     this.phoneType = phoneType;

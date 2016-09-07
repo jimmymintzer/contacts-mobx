@@ -1,13 +1,11 @@
 // @flow
 import React from 'react';
 import { observer, Provider } from 'mobx-react';
-import { Router, useRouterHistory } from 'react-router';
-import { createHashHistory } from 'history';
+import { Router, hashHistory } from 'react-router';
 import Root from './components/Root';
 import UiState from './stores/UiState';
 import ContactsStore from './stores/ContactsStore';
 
-const appHistory = useRouterHistory(createHashHistory)({ queryKey: false });
 const uiState = new UiState('lightBaseTheme', false);
 const contactsStore = new ContactsStore();
 
@@ -54,7 +52,7 @@ const routes = {
 
 const App = observer(() =>
   <Provider {...stores}>
-    <Router history={appHistory}>
+    <Router history={hashHistory}>
       {routes}
     </Router>
   </Provider>
