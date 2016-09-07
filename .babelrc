@@ -7,13 +7,7 @@
   "plugins": [
     "transform-decorators-legacy",
     "transform-flow-strip-types",
-    "transform-runtime"
-  ],
-  "env": {
-    "development": {
-      "plugins": [
-        "react-hot-loader/babel"
-      ],
-    }
-  }
+    "transform-runtime",
+    "react-hot-loader/babel"
+  ]
 }

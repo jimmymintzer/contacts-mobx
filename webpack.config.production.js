@@ -7,7 +7,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'dist'),
     filename: '[name].bundle.js',
-    publicPath: '/',
+    publicPath: '/contacts-mobx/',
   },
   plugins: [
     new webpack.optimize.CommonsChunkPlugin('commons.js'),
@@ -34,7 +34,7 @@ module.exports = {
     }),
     new webpack.DefinePlugin({
       __DEV__: JSON.stringify(false),
-    })
+    }),
   ],
   resolve: {
     extensions: ['', '.js', '.jsx'],
