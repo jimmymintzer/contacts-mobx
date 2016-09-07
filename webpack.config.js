@@ -4,7 +4,6 @@ const webpack = require('webpack');
 module.exports = {
   devtool: 'eval',
   entry: [
-    'babel-polyfill',
     'react-hot-loader/patch',
     'webpack-dev-server/client?http://localhost:3000',
     'webpack/hot/only-dev-server',
@@ -17,6 +16,9 @@ module.exports = {
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
+    new webpack.DefinePlugin({
+      __DEV__: JSON.stringify(true),
+    }),
   ],
   resolve: {
     extensions: ['', '.js', '.jsx'],

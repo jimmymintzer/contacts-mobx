@@ -1,14 +1,11 @@
 // @flow
 import React from 'react';
 import { observer, Provider } from 'mobx-react';
-import { Router, Route, IndexRoute, useRouterHistory } from 'react-router';
+import { Router, useRouterHistory } from 'react-router';
 import { createHashHistory } from 'history';
 import Root from './components/Root';
-import Settings from './components/Settings';
 import UiState from './stores/UiState';
 import ContactsStore from './stores/ContactsStore';
-import ContactList from './components/ContactList';
-import ContactForm from './components/ContactForm';
 
 const appHistory = useRouterHistory(createHashHistory)({ queryKey: false });
 const uiState = new UiState('lightBaseTheme', false);
@@ -19,16 +16,46 @@ const stores = {
   contactsStore,
 };
 
+const routes = {
+  path: '/',
+  component: Root,
+  indexRoute: {
+    getComponents: (nextState, cb) => require.ensure([], require => {
+      cb(null, require('./components/ContactList').default);
+    }),
+  },
+  childRoutes: [
+    {
+      path: '/list',
+      getComponents: (nextState, cb) => require.ensure([], require => {
+        cb(null, require('./components/ContactList').default);
+      }),
+    },
+    {
+      path: '/new',
+      getComponents: (nextState, cb) => require.ensure([], require => {
+        cb(null, require('./components/ContactForm').default);
+      }),
+    },
+    {
+      path: '/settings',
+      getComponents: (nextState, cb) => require.ensure([], require => {
+        cb(null, require('./components/Settings').default);
+      }),
+    },
+    {
+      path: 'edit/:contactId',
+      getComponents: (nextState, cb) => require.ensure([], require => {
+        cb(null, require('./components/ContactForm').default);
+      }),
+    },
+  ],
+};
+
 const App = observer(() =>
   <Provider {...stores}>
     <Router history={appHistory}>
-      <Route path="/" component={Root}>
-        <IndexRoute component={ContactList} />
-        <Route path="list" component={ContactList} />
-        <Route path="new" component={ContactForm} />
-        <Route path="settings" component={Settings} />
-        <Route path="edit/:contactId" component={ContactForm} />
-      </Route>
+      {routes}
     </Router>
   </Provider>
 );

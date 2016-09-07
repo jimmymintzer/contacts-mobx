@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   paper: {
-    width: '95%',
+    width: '85%',
     margin: '20px 0',
     padding: '10px 10px 40px 10px',
   },

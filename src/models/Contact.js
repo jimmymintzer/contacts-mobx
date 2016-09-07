@@ -13,18 +13,14 @@ export default class Contact {
 
   constructor(contact: Object) {
     const { firstName, lastName, phoneType, phoneNumber, id } = contact;
-    const pn = new PhoneNumber(phoneNumber, 'US');
-    if (!id) {
-      this.id = v1();
-    } else {
-      this.id = id;
-    }
-    this._id = this.id; // eslint-disable-line no-underscore-dangle
 
+    this._id = this.id = id || v1(); // eslint-disable-line no-underscore-dangle
     this.firstName = firstName;
     this.lastName = lastName;
     this.phoneType = phoneType;
-    this.phoneNumber = pn.getNumber('international');
+    this.phoneNumber = (phoneNumber) ?
+      new PhoneNumber(phoneNumber, 'US').getNumber('international') :
+      '';
   }
 
   @computed get fullName(): string {

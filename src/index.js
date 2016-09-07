@@ -1,6 +1,5 @@
 // @flow
 import 'whatwg-fetch';
-import 'es6-promise';
 import React from 'react';
 import { render } from 'react-dom';
 import { useStrict } from 'mobx';

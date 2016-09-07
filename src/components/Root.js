@@ -9,7 +9,9 @@ const Root = observer(['uiState'], ({ uiState, children }) =>
   <div>
     <MuiThemeProvider muiTheme={uiState.themeObject}>
       <div>
-        <DevTools />
+        {
+          (__DEV__) ? <DevTools /> : null
+        }
         <AppBarHeader muiTheme={uiState.themeObject} />
         {children}
       </div>
